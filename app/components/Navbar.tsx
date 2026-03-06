@@ -1,58 +1,52 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/about", label: "Sobre mí" },
-  { href: "/projects", label: "Proyectos" },
-  { href: "/skills", label: "Skills" },
-  { href: "/experience", label: "Experiencia" },
-  { href: "/contact", label: "Contacto" },
+  { href: "#inicio", label: "Inicio" },
+  { href: "#sobre-mi", label: "Sobre mí" },
+  { href: "#stack", label: "Stack" },
+  { href: "#proyectos", label: "Proyectos" },
+  { href: "#contacto", label: "Contacto" },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800">
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
+        <a
+          href="#inicio"
           className="text-white font-bold text-lg tracking-tight font-mono"
         >
           <span className="text-violet-400">{"<"}</span>
-          DevName
+          JA
           <span className="text-violet-400">{" />"}</span>
-        </Link>
+        </a>
 
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link
+              <a
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-violet-400 ${
-                  pathname === link.href ? "text-violet-400" : "text-zinc-400"
-                }`}
+                className="text-sm font-medium transition-colors hover:text-violet-400 text-zinc-400"
               >
                 {link.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
 
         {/* Desktop CTA */}
-        <Link
-          href="/contact"
+        <a
+          href="#contacto"
           className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-semibold text-sm transition-all hover:scale-105"
         >
-          Contactame
-        </Link>
+          Contáctame
+        </a>
 
         {/* Hamburger */}
         <button
@@ -91,25 +85,23 @@ export default function Navbar() {
           <ul className="flex flex-col gap-5">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link
+                <a
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`block text-sm font-medium transition-colors hover:text-violet-400 ${
-                    pathname === link.href ? "text-violet-400" : "text-zinc-400"
-                  }`}
+                  className="block text-sm font-medium transition-colors hover:text-violet-400 text-zinc-400"
                 >
                   {link.label}
-                </Link>
+                </a>
               </li>
             ))}
             <li>
-              <Link
-                href="/contact"
+              <a
+                href="#contacto"
                 onClick={() => setMenuOpen(false)}
                 className="inline-flex px-4 py-2 bg-violet-500 hover:bg-violet-400 text-white font-semibold text-sm rounded-md transition-colors"
               >
-                Contactame
-              </Link>
+                Contáctame
+              </a>
             </li>
           </ul>
         </div>

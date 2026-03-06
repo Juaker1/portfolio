@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -7,27 +5,27 @@ export default function Footer() {
     <footer className="border-t border-zinc-800 bg-zinc-950">
       <div className="max-w-6xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <Link href="/" className="text-white font-bold font-mono text-base">
+          <a href="#inicio" className="text-white font-bold font-mono text-base">
             <span className="text-violet-400">{"<"}</span>
-            DevName
+            JA
             <span className="text-violet-400">{" />"}</span>
-          </Link>
+          </a>
 
           <div className="flex flex-wrap items-center justify-center gap-6">
             {[
-              { label: "Inicio", href: "/" },
-              { label: "Proyectos", href: "/projects" },
-              { label: "Skills", href: "/skills" },
-              { label: "Experiencia", href: "/experience" },
-              { label: "Contacto", href: "/contact" },
+              { label: "Inicio", href: "#inicio" },
+              { label: "Sobre mí", href: "#sobre-mi" },
+              { label: "Stack", href: "#stack" },
+              { label: "Proyectos", href: "#proyectos" },
+              { label: "Contacto", href: "#contacto" },
             ].map((item) => (
-              <Link
+              <a
                 key={item.label}
                 href={item.href}
                 className="text-zinc-500 hover:text-violet-400 transition-colors text-sm"
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
           </div>
 
