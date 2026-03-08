@@ -31,7 +31,7 @@ export default function Footer() {
 
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/Juaker1"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
@@ -42,7 +42,7 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/in/joaquin-aguilar-ampuero"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -53,7 +53,7 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="mailto:correo@ejemplo.com"
+              href="mailto:joaquin.aguilar.ampuero@gmail.com"
               aria-label="Email"
               className="text-zinc-500 hover:text-white transition-colors"
             >
