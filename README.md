@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# `<JA />` — Portfolio Personal
 
-## Getting Started
+> Portfolio de **Joaquín Aguilar** · Ingeniero Civil en Informática · Fullstack Dev
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Stack
+
+| Capa | Tecnología |
+|---|---|
+| Framework | Next.js 16 + React 19 |
+| Estilos | Tailwind CSS v4 |
+| Animaciones | Framer Motion — scroll-sync animations |
+| Lenguaje | TypeScript |
+| Package manager | pnpm |
+
+---
+
+## ✨ Características
+
+- **Animaciones sincronizadas con el scroll** — cada elemento se revela en proporción directa a la velocidad y posición del scroll, usando `useScroll` + `useTransform` de Framer Motion
+- **Navegación lateral (SideNav)** con efecto fisheye, transición de dot circular → línea activa, y labels en cascada al hover
+- **Lightbox** para imágenes de proyectos con soporte de teclado (Esc)
+- **Diseño responsive** adaptado a mobile y desktop
+- Seguimiento de sección activa via `IntersectionObserver`
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+app/
+├── components/
+│   ├── ActiveSectionContext.tsx   # Context global de sección activa + navegación programática
+│   ├── CardDeck.tsx               # Wrapper de secciones con scroll tracking
+│   ├── ProjectsGrid.tsx           # Grid de proyectos con lightbox
+│   └── SideNav.tsx                # Navegación lateral flotante con animaciones
+├── globals.css
+├── layout.tsx
+└── page.tsx                       # Página principal con todas las secciones y ScrollReveal
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Desarrollo local
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+pnpm dev
+```
 
-## Learn More
+Abre [http://localhost:3000](http://localhost:3000) en el browser.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📬 Contacto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-joaquin--aguilar--ampuero-0A66C2?style=flat&logo=linkedin)](https://linkedin.com/in/joaquin-aguilar-ampuero)
+[![GitHub](https://img.shields.io/badge/GitHub-Juaker1-181717?style=flat&logo=github)](https://github.com/Juaker1)
+[![Email](https://img.shields.io/badge/Email-joaquin.aguilar.ampuero%40gmail.com-EA4335?style=flat&logo=gmail)](mailto:joaquin.aguilar.ampuero@gmail.com)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
