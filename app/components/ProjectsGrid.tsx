@@ -28,6 +28,9 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Imagen: ${alt}`}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
       onClick={onClose}
     >
@@ -58,7 +61,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (
           <div
             key={project.title}
@@ -69,6 +72,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
                 <img
                   src={project.images[0]}
                   alt={project.title}
+                  loading="lazy"
                   className="w-full h-full object-cover cursor-zoom-in hover:scale-105 transition-transform duration-300"
                   onClick={() => openLightbox(project.images[0], project.title)}
                 />
@@ -79,6 +83,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
                       key={i}
                       src={img}
                       alt={`${project.title} ${i + 1}`}
+                      loading="lazy"
                       className="w-1/2 h-full object-cover object-center border-r border-zinc-800 last:border-r-0 cursor-zoom-in hover:scale-105 transition-transform duration-300"
                       onClick={() => openLightbox(img, `${project.title} ${i + 1}`)}
                     />
