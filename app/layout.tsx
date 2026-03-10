@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Ingeniero Civil en Informática",
+  title: "Portfolio | Joaquín Aguilar",
   description:
     "Portfolio de desarrollo fullstack con Next.js, Angular, Python, FastAPI, HonoJS y más.",
   icons: {
