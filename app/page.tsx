@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ProjectsGrid from "./components/ProjectsGrid";
 import CardDeck from "./components/CardDeck";
@@ -141,6 +141,90 @@ const orbitalDots = [
 ];
 
 // ─────────────────────────────────────────────
+// ContactCard — regular link card or copyable email card
+// ─────────────────────────────────────────────
+
+type ContactOpt = {
+  label: string;
+  value: string;
+  href: string;
+  desc: string;
+  bgIcon: string;
+  textIcon: string;
+  border: string;
+  icon: React.ReactNode;
+  dir: "left" | "right";
+  copyable?: boolean;
+};
+
+function ContactCard({ opt }: { opt: ContactOpt }) {
+  const [toast, setToast] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(opt.value).then(() => {
+      setToast(true);
+      setTimeout(() => setToast(false), 2000);
+    });
+  }, [opt.value]);
+
+  const cardClass = `h-full flex flex-row items-center gap-5 p-5 bg-zinc-900 border ${opt.border} rounded-xl transition-all group`;
+
+  const inner = (
+    <>
+      <div className={`p-3 rounded-lg ${opt.bgIcon} ${opt.textIcon} shrink-0 group-hover:scale-110 transition-transform`}>
+        {opt.icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-white font-semibold text-sm mb-0.5">{opt.label}</p>
+        <p className={`text-xs font-mono break-all ${opt.textIcon} mb-1`}>{opt.value}</p>
+        <p className="text-zinc-600 text-xs leading-relaxed">{opt.desc}</p>
+      </div>
+      {opt.copyable && (
+        <button
+          onClick={(e) => { e.preventDefault(); handleCopy(); }}
+          aria-label="Copiar correo al portapapeles"
+          className="shrink-0 p-2 rounded-lg text-zinc-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
+        >
+          {toast ? (
+            <svg className="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          )}
+        </button>
+      )}
+    </>
+  );
+
+  return (
+    <ScrollReveal direction={opt.dir} className="h-full relative">
+      {opt.copyable ? (
+        <a href={opt.href} className={cardClass}>{inner}</a>
+      ) : (
+        <a
+          href={opt.href}
+          target={opt.href.startsWith("http") ? "_blank" : undefined}
+          rel={opt.href.startsWith("http") ? "noopener noreferrer" : undefined}
+          className={cardClass}
+        >
+          {inner}
+        </a>
+      )}
+      {/* Toast */}
+      <div
+        className={`absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-zinc-800 border border-violet-500/30 text-violet-400 text-xs font-mono rounded-full whitespace-nowrap pointer-events-none transition-all duration-300 ${toast ? "opacity-100 -translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+      >
+        ✓ Correo copiado al portapapeles
+      </div>
+    </ScrollReveal>
+  );
+}
+
+// ─────────────────────────────────────────────
 // Page
 // ─────────────────────────────────────────────
 
@@ -192,14 +276,14 @@ export default function Home() {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <a href="#proyectos" className="px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-lg transition-all hover:scale-105 text-sm shadow-lg shadow-violet-900/40">
-                Ver proyectos &rarr;
+              <a href="#proyectos" className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-lg transition-all hover:scale-105 text-sm shadow-lg shadow-violet-900/40">
+                Ver proyectos
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </a>
               <a href="#contacto" className="px-6 py-3 border border-zinc-700 hover:border-violet-500 text-zinc-300 hover:text-white font-semibold rounded-lg transition-all hover:scale-105 text-sm">
                 Contáctame
-              </a>
-              <a href="/cv-joaquin-aguilar.pdf" download="CV_Joaquin_Aguilar.pdf" className="px-6 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-300 font-semibold rounded-lg transition-all text-sm">
-                Descargar CV &darr;
               </a>
             </div>
           </ScrollReveal>
@@ -276,7 +360,10 @@ export default function Home() {
                 </a>
               </div>
               <a href="/cv-joaquin-aguilar.pdf" download="CV_Joaquin_Aguilar.pdf" className="mt-3 flex items-center justify-center gap-2 px-4 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-lg transition-all text-sm">
-                Descargar CV ↓
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Descargar CV
               </a>
             </ScrollReveal>
 
@@ -390,6 +477,7 @@ export default function Home() {
                 border: "border-violet-500/20 hover:border-violet-500/50",
                 icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
                 dir: "left" as const,
+                copyable: true,
               },
               {
                 label: "LinkedIn",
@@ -422,21 +510,7 @@ export default function Home() {
                 dir: "right" as const,
               },
             ].map((opt) => (
-              <ScrollReveal key={opt.label} direction={opt.dir} className="h-full">
-                <a
-                  href={opt.href}
-                  target={opt.href.startsWith("http") ? "_blank" : undefined}
-                  rel={opt.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className={`h-full flex flex-row items-center gap-5 p-5 bg-zinc-900 border ${opt.border} rounded-xl transition-all group`}
-                >
-                  <div className={`p-3 rounded-lg ${opt.bgIcon} ${opt.textIcon} shrink-0 group-hover:scale-110 transition-transform`}>{opt.icon}</div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white font-semibold text-sm mb-0.5">{opt.label}</p>
-                    <p className={`text-xs font-mono break-all ${opt.textIcon} mb-1`}>{opt.value}</p>
-                    <p className="text-zinc-600 text-xs leading-relaxed">{opt.desc}</p>
-                  </div>
-                </a>
-              </ScrollReveal>
+              <ContactCard key={opt.label} opt={opt as ContactOpt} />
             ))}
           </div>
 
