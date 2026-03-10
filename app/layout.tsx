@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   title: "Portfolio | Ingeniero Civil en Informática",
   description:
     "Portfolio de desarrollo fullstack con Next.js, Angular, Python, FastAPI, HonoJS y más.",
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({
