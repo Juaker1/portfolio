@@ -3,19 +3,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useActiveSection } from "./ActiveSectionContext";
 import { SECTION_IDS } from "./CardDeck";
-
-const SECTION_LABELS: Record<string, string> = {
-  "inicio": "Inicio",
-  "sobre-mi": "Sobre mí",
-  "stack": "Stack",
-  "proyectos": "Proyectos",
-  "contacto": "Contacto",
-};
+import { useLang } from "./LanguageContext";
+import { t } from "../translations";
 
 export default function SideNav() {
   const { activeSection, navigateTo } = useActiveSection();
+  const { lang, toggleLang } = useLang();
   const [navHovered, setNavHovered] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  const T = t[lang];
 
   return (
     <>
@@ -32,12 +29,30 @@ export default function SideNav() {
 
       {/* ── Social icons top-right ── */}
       <div className="fixed top-6 right-8 z-50 flex items-center gap-4">
+        {/* Lang toggle */}
+        <div className="flex items-center gap-1 text-xs font-mono">
+          <button
+            onClick={() => lang !== "es" && toggleLang()}
+            className={`transition-colors ${lang === "es" ? "text-violet-400 font-bold" : "text-zinc-500 hover:text-zinc-300"}`}
+          >
+            ES
+          </button>
+          <span className="text-zinc-700">|</span>
+          <button
+            onClick={() => lang !== "en" && toggleLang()}
+            className={`transition-colors ${lang === "en" ? "text-violet-400 font-bold" : "text-zinc-500 hover:text-zinc-300"}`}
+          >
+            EN
+          </button>
+        </div>
+        {/* Separator */}
+        <span className="w-px h-3 bg-zinc-700" />
         {/* CV download */}
         <a
-          href="/cv-joaquin-aguilar.pdf"
-          download="CV_Joaquin_Aguilar.pdf"
-          aria-label="Descargar CV"
-          title="Descargar CV"
+          href={lang === "en" ? "/cv-joaquin-aguilar-en.pdf" : "/cv-joaquin-aguilar.pdf"}
+          download={lang === "en" ? "CV_Joaquin_Aguilar_EN.pdf" : "CV_Joaquin_Aguilar.pdf"}
+          aria-label={T.about.downloadCV}
+          title={T.about.downloadCV}
           className="text-zinc-500 hover:text-violet-400 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +81,6 @@ export default function SideNav() {
         {SECTION_IDS.map((id, i) => {
           const isActive = activeSection === id;
           const isItemHovered = hoveredId === id;
-          // Fisheye: hovered item scales up, neighbours slightly less, rest normal
           const scale = isItemHovered ? 1.25 : navHovered && hoveredId ? 0.92 : 1;
 
           return (
@@ -78,9 +92,8 @@ export default function SideNav() {
               animate={{ scale }}
               transition={{ type: "spring", stiffness: 400, damping: 28 }}
               className="flex items-center gap-3 origin-left cursor-pointer"
-              aria-label={SECTION_LABELS[id]}
+              aria-label={T.nav[id as keyof typeof T.nav]}
             >
-              {/* Dot / active line */}
               <div className="relative flex items-center justify-center w-5">
                 <motion.div
                   animate={
@@ -93,26 +106,17 @@ export default function SideNav() {
                   transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
                 />
               </div>
-
-              {/* Label — always in DOM, opacity controls visibility */}
               <motion.span
-                animate={{
-                  opacity: isActive ? 1 : navHovered ? (isItemHovered ? 0.9 : 0.4) : 0,
-                }}
+                animate={{ opacity: isActive ? 1 : navHovered ? (isItemHovered ? 0.9 : 0.4) : 0 }}
                 transition={{
                   duration: 0.28,
-                  delay: !isActive
-                    ? navHovered
-                      ? i * 0.05          // enter: top → bottom
-                      : (SECTION_IDS.length - 1 - i) * 0.045  // exit: bottom → top
-                    : 0,
+                  delay: !isActive ? navHovered ? i * 0.05 : (SECTION_IDS.length - 1 - i) * 0.045 : 0,
                   ease: "easeInOut",
                 }}
                 style={{ pointerEvents: "none" }}
-                className={`text-xs font-mono tracking-widest uppercase whitespace-nowrap select-none ${isActive ? "text-violet-300" : "text-zinc-500"
-                  }`}
+                className={`text-xs font-mono tracking-widest uppercase whitespace-nowrap select-none ${isActive ? "text-violet-300" : "text-zinc-500"}`}
               >
-                {SECTION_LABELS[id]}
+                {T.nav[id as keyof typeof T.nav]}
               </motion.span>
             </motion.button>
           );
