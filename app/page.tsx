@@ -400,7 +400,7 @@ export default function Home() {
         </div>
       </section>,
 
-      <section id="contacto" key="contacto" className="border-t border-zinc-800/50 bg-zinc-900/20 py-24">
+      <section id="contacto" key="contacto" className="border-t border-zinc-800/50 bg-zinc-900/20 py-24 pb-32 md:pb-24">
         <div className="max-w-6xl mx-auto px-6">
           <ScrollReveal direction="up" className="mb-12">
             <span className="text-violet-400 font-mono text-sm">{T.contact.comment}</span>
